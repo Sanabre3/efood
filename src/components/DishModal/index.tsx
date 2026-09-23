@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useId } from 'react'
 import { createPortal } from 'react-dom'
 
 import type { Dish } from '../../types'
@@ -12,7 +12,14 @@ type Props = {
   onAddToCart: (dish: Dish) => void
 }
 
+/**
+ * Modal aberta ao clicar em "Adicionar ao carrinho" no card do prato.
+ * Mostra a foto, a descrição completa, a porção e o preço, e fecha no X,
+ * no clique fora do conteúdo ou com a tecla Esc.
+ */
 const DishModal = ({ dish, onClose, onAddToCart }: Props) => {
+  const titleId = useId()
+
   useEffect(() => {
     if (!dish) return
 
@@ -32,7 +39,7 @@ const DishModal = ({ dish, onClose, onAddToCart }: Props) => {
   if (!dish) return null
 
   return createPortal(
-    <S.Overlay onClick={onClose} role="dialog" aria-modal="true">
+    <S.Overlay onClick={onClose} role="dialog" aria-modal="true" aria-labelledby={titleId}>
       <S.Content onClick={(event) => event.stopPropagation()}>
         <S.CloseButton type="button" onClick={onClose} aria-label="Fechar">
           <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -40,18 +47,18 @@ const DishModal = ({ dish, onClose, onAddToCart }: Props) => {
           </svg>
         </S.CloseButton>
 
-        <S.Image src={dish.image} alt={dish.name} />
+        <S.Image src={dish.foto} alt={dish.nome} />
 
         <S.Details>
-          <S.Title>{dish.name}</S.Title>
+          <S.Title id={titleId}>{dish.nome}</S.Title>
           <S.Description>
-            {dish.description}
+            {dish.descricao}
             <br />
             <br />
-            Serve: {dish.portion}
+            Serve: {dish.porcao}
           </S.Description>
           <S.AddButton type="button" onClick={() => onAddToCart(dish)}>
-            Adicionar ao carrinho - {formatPrice(dish.price)}
+            Adicionar ao carrinho - {formatPrice(dish.preco)}
           </S.AddButton>
         </S.Details>
       </S.Content>

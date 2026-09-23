@@ -26,7 +26,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     () => ({
       items,
       totalItems: items.length,
-      totalPrice: items.reduce((total, item) => total + item.price, 0),
+      totalPrice: items.reduce((total, item) => total + item.preco, 0),
       addToCart,
       removeFromCart
     }),

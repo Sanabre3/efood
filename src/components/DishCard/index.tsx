@@ -11,15 +11,15 @@ type Props = {
 
 const DishCard = ({ dish, onOpenDetails }: Props) => (
   <S.Card>
-    <img src={dish.image} alt={dish.name} />
-    <S.Title>{dish.name}</S.Title>
-    <S.Description>{getDescription(dish.description, 130)}</S.Description>
+    <img src={dish.foto} alt={dish.nome} loading="lazy" />
+    <S.Title>{dish.nome}</S.Title>
+    <S.Description>{getDescription(dish.descricao, 130)}</S.Description>
     <Button
       variant="secondary"
-      title={`Ver mais detalhes de ${dish.name}`}
+      title={`Clique para comprar ${dish.nome}`}
       onClick={() => onOpenDetails(dish)}
     >
-      Mais detalhes
+      Adicionar ao carrinho
     </Button>
   </S.Card>
 )
