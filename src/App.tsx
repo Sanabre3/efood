@@ -1,16 +1,19 @@
+import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
 import AppRoutes from './routes'
-import CartProvider from './contexts/CartProvider'
+import Cart from './components/Cart'
+import { store } from './store'
 import { GlobalStyle } from './styles'
 
 const App = () => (
-  <BrowserRouter basename={import.meta.env.BASE_URL}>
-    <CartProvider>
+  <Provider store={store}>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <GlobalStyle />
       <AppRoutes />
-    </CartProvider>
-  </BrowserRouter>
+      <Cart />
+    </BrowserRouter>
+  </Provider>
 )
 
 export default App
