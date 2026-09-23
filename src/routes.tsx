@@ -7,7 +7,7 @@ import Restaurant from './pages/Restaurant'
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />
-    <Route path="/restaurantes/:slug" element={<Restaurant />} />
+    <Route path="/restaurantes/:id" element={<Restaurant />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 )

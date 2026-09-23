@@ -6,25 +6,30 @@ import DishCard from '../../components/DishCard'
 import DishModal from '../../components/DishModal'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
-import { getRestaurantBySlug } from '../../data/restaurants'
+import Loader from '../../components/Loader'
+import Message from '../../components/Message'
 import { useCart } from '../../contexts/useCart'
-import type { Dish } from '../../types'
+import { HttpError, useFetch } from '../../hooks/useFetch'
+import { endpoints } from '../../services/api'
+import type { Dish, Restaurant as RestaurantType } from '../../types'
 
 import * as S from './styles'
 
 const Restaurant = () => {
-  const { slug } = useParams()
-  const restaurant = getRestaurantBySlug(slug)
+  const { id } = useParams()
+  const {
+    data: restaurant,
+    isLoading,
+    error
+  } = useFetch<RestaurantType>(endpoints.restaurant(id ?? ''))
   const { addToCart } = useCart()
   const [selectedDish, setSelectedDish] = useState<Dish | null>(null)
 
   useEffect(() => {
-    if (restaurant) {
-      document.title = `efood - ${restaurant.title}`
-    }
+    document.title = restaurant ? `efood - ${restaurant.titulo}` : 'efood'
   }, [restaurant])
 
-  if (!restaurant) {
+  if (error instanceof HttpError && error.status === 404) {
     return <Navigate to="/404" replace />
   }
 
@@ -36,16 +41,27 @@ const Restaurant = () => {
   return (
     <>
       <Header variant="inner" />
-      <Banner restaurant={restaurant} />
+
+      {restaurant && <Banner restaurant={restaurant} />}
 
       <S.Main>
-        <S.List className="container">
-          {restaurant.dishes.map((dish) => (
-            <li key={dish.id}>
-              <DishCard dish={dish} onOpenDetails={setSelectedDish} />
-            </li>
-          ))}
-        </S.List>
+        {isLoading && <Loader>Carregando cardápio...</Loader>}
+
+        {error && (
+          <Message title="Não foi possível carregar este restaurante">
+            Verifique sua conexão e tente novamente em alguns instantes.
+          </Message>
+        )}
+
+        {restaurant && (
+          <S.List className="container">
+            {restaurant.cardapio.map((dish) => (
+              <li key={dish.id}>
+                <DishCard dish={dish} onOpenDetails={setSelectedDish} />
+              </li>
+            ))}
+          </S.List>
+        )}
       </S.Main>
 
       <DishModal

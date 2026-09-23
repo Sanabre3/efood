@@ -1,21 +1,20 @@
+/** Formato devolvido pela API: https://api-ebac.vercel.app/api/efood/restaurantes */
 export type Dish = {
   id: number
-  name: string
-  description: string
-  price: number
-  portion: string
-  image: string
+  nome: string
+  descricao: string
+  foto: string
+  preco: number
+  porcao: string
 }
 
 export type Restaurant = {
   id: number
-  slug: string
-  title: string
-  category: string
-  highlighted: boolean
-  rating: number
-  description: string
-  thumb: string
-  cover: string
-  dishes: Dish[]
+  titulo: string
+  destacado: boolean
+  tipo: string
+  avaliacao: number
+  descricao: string
+  capa: string
+  cardapio: Dish[]
 }
