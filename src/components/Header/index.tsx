@@ -1,5 +1,6 @@
 import Logo from '../Logo'
-import { useCart } from '../../contexts/useCart'
+import { open } from '../../store/reducers/cart'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 
 import * as S from './styles'
 
@@ -8,7 +9,8 @@ type Props = {
 }
 
 const Header = ({ variant = 'home' }: Props) => {
-  const { totalItems } = useCart()
+  const dispatch = useAppDispatch()
+  const totalItems = useAppSelector((state) => state.cart.items.length)
 
   if (variant === 'home') {
     return (
@@ -30,7 +32,7 @@ const Header = ({ variant = 'home' }: Props) => {
       <S.InnerContent className="container">
         <S.NavLink to="/">Restaurantes</S.NavLink>
         <Logo />
-        <S.CartLink type="button">
+        <S.CartLink type="button" onClick={() => dispatch(open())}>
           {totalItems} produto(s) no carrinho
         </S.CartLink>
       </S.InnerContent>

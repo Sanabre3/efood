@@ -8,9 +8,10 @@ import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import Loader from '../../components/Loader'
 import Message from '../../components/Message'
-import { useCart } from '../../contexts/useCart'
 import { HttpError, useFetch } from '../../hooks/useFetch'
 import { endpoints } from '../../services/api'
+import { add } from '../../store/reducers/cart'
+import { useAppDispatch } from '../../store/hooks'
 import type { Dish, Restaurant as RestaurantType } from '../../types'
 
 import * as S from './styles'
@@ -22,7 +23,7 @@ const Restaurant = () => {
     isLoading,
     error
   } = useFetch<RestaurantType>(endpoints.restaurant(id ?? ''))
-  const { addToCart } = useCart()
+  const dispatch = useAppDispatch()
   const [selectedDish, setSelectedDish] = useState<Dish | null>(null)
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const Restaurant = () => {
   }
 
   const handleAddToCart = (dish: Dish) => {
-    addToCart(dish)
+    dispatch(add(dish))
     setSelectedDish(null)
   }
 

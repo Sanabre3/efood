@@ -15,6 +15,10 @@ com o conteúdo carregado por AJAX a partir da
 - **Modal do prato** — abre ao clicar em "Adicionar ao carrinho" no card, com
   foto, descrição completa, porção e o botão de compra com o preço formatado
   (fecha no X, no clique fora ou com `Esc`).
+- **Carrinho** — painel lateral com os pratos adicionados, valor total (soma
+  do preço dos itens), remoção item a item e botão de entrega; abre ao
+  adicionar um prato ou ao clicar no contador do cabeçalho, e o estado é
+  controlado por Redux.
 - **Estados da requisição** — indicador de carregamento e mensagem de erro em
   cada página; um id inexistente cai na página 404.
 - **404** — qualquer rota inexistente cai em uma página de erro com retorno à home.
@@ -26,6 +30,7 @@ com o conteúdo carregado por AJAX a partir da
 - [Vite](https://vite.dev/)
 - [Styled Components](https://styled-components.com/) para toda a estilização
 - [React Router](https://reactrouter.com/) para a navegação entre páginas
+- [Redux Toolkit](https://redux-toolkit.js.org/) para o estado do carrinho
 - `fetch` + hook próprio (`useFetch`) para o consumo da API
 
 ## Consumo da API
@@ -39,16 +44,24 @@ cancelando a chamada se o componente sair da tela.
 | Home | `GET /api/efood/restaurantes` |
 | Perfil | `GET /api/efood/restaurantes/:id` |
 
+## Carrinho (Redux)
+
+O estado fica no slice `cart` (`src/store/reducers/cart.ts`), com as ações
+`add`, `remove`, `clear`, `open` e `close`. Adicionar um prato empilha o item
+e abre o painel; a remoção é feita pela posição na lista, para que pratos
+repetidos sejam tratados de forma independente. O valor da compra é a soma
+do preço dos itens, calculada pelo seletor `selectCartTotal`.
+
 ## Estrutura
 
 ```
 src/
-├── components/      # Header, Footer, Banner, Button, Tag, RestaurantCard, DishCard, DishModal, Loader, Message, Logo
-├── contexts/        # CartContext (contador do carrinho)
+├── components/      # Header, Footer, Banner, Button, Tag, RestaurantCard, DishCard, DishModal, Cart, Loader, Message, Logo
 ├── data/            # massa de exemplo no formato da API (referência offline)
 ├── hooks/           # useFetch
 ├── pages/           # Home, Restaurant, NotFound
 ├── services/        # endpoints da API
+├── store/           # store do Redux e slice do carrinho
 ├── styles/          # estilos globais, cores e breakpoints
 ├── utils/           # formatação de preço/descrição e textura do cabeçalho
 ├── routes.tsx       # rotas da aplicação
