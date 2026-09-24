@@ -88,20 +88,6 @@ export const Total = styled.p`
   margin-bottom: 16px;
 `
 
-export const CheckoutButton = styled.button`
-  background-color: ${colors.cream};
-  color: ${colors.salmon};
-  font-size: 14px;
-  font-weight: 700;
-  width: 100%;
-  padding: 4px 0;
-  transition: filter 0.2s ease;
-
-  &:hover {
-    filter: brightness(0.94);
-  }
-`
-
 export const Empty = styled.p`
   color: ${colors.cream};
   font-size: 14px;
