@@ -6,6 +6,8 @@ export const colors = {
   background: '#FFF8F2',
   white: '#FFFFFF',
   overlay: 'rgba(0, 0, 0, 0.73)',
+  text: '#4B4B4B',
+  error: '#7A1414',
   shadow: 'rgba(0, 0, 0, 0.16)'
 }
 

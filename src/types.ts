@@ -18,3 +18,37 @@ export type Restaurant = {
   capa: string
   cardapio: Dish[]
 }
+
+/** Payload e resposta de POST /api/efood/checkout */
+export type Delivery = {
+  receiver: string
+  address: {
+    description: string
+    city: string
+    zipCode: string
+    number: number
+    complement?: string
+  }
+}
+
+export type Payment = {
+  card: {
+    name: string
+    number: string
+    code: number
+    expires: {
+      month: number
+      year: number
+    }
+  }
+}
+
+export type CheckoutPayload = {
+  products: { id: number; price: number }[]
+  delivery: Delivery
+  payment: Payment
+}
+
+export type CheckoutResponse = {
+  orderId: string
+}
